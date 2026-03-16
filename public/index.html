@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClassCast - Classroom Audio Amplification</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231e90ff' width='192' height='192'/><text x='50%' y='50%' font-size='120' fill='white' text-anchor='middle' dominant-baseline='central' font-weight='bold'>CC</text></svg>">
+    <meta name="theme-color" content="#1e90ff">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div id="home-screen" class="screen active">
+            <div class="container">
+                <div class="header">
+                    <h1>🎙️ ClassCast</h1>
+                    <p class="tagline">Real-time Classroom Audio Amplification</p>
+                </div>
+
+                <div class="connection-status">
+                    <span class="status-dot disconnected"></span>
+                    <span id="status-text">Disconnected</span>
+                </div>
+
+                <div class="room-input-section">
+                    <input 
+                        type="text" 
+                        id="room-code-input" 
+                        placeholder="Enter room code (e.g., ABC123)" 
+                        maxlength="6"
+                        class="room-input"
+                    >
+                    <span class="input-hint">4-6 characters, uppercase</span>
+                </div>
+
+                <div class="button-group">
+                    <button id="mic-btn" class="btn btn-primary btn-large">
+                        🎤 Start as Mic (Lecturer)
+                    </button>
+                    <button id="speaker-btn" class="btn btn-secondary btn-large">
+                        🔊 Join as Speaker (Student)
+                    </button>
+                </div>
+
+                <div class="info-section">
+                    <p><strong>How it works:</strong></p>
+                    <ul>
+                        <li>Lecturer starts as Mic and broadcasts audio</li>
+                        <li>Students join as Speakers to receive audio</li>
+                        <li>Only ONE lecturer mic per room</li>
+                        <li>Works on local WiFi - no internet needed</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="mic-screen" class="screen">
+            <div class="container">
+                <div class="mic-header">
+                    <h1>🎤 You are the Mic</h1>
+                    <div class="room-code-display">
+                        <span class="label">Room Code:</span>
+                        <span class="code" id="mic-room-code">---</span>
+                        <button class="btn-copy" id="copy-code-btn" title="Copy room code">📋</button>
+                    </div>
+                </div>
+
+                <div class="connection-status">
+                    <span class="status-dot connected"></span>
+                    <span id="mic-status-text">Connected</span>
+                </div>
+
+                <div class="controls">
+                    <button id="mute-btn" class="btn btn-danger btn-large btn-mute">
+                        <span class="mute-icon">🔴</span>
+                        <span class="mute-text">MUTED</span>
+                    </button>
+                </div>
+
+                <div class="speaker-count">
+                    <p>Connected Speakers: <span id="speaker-count">0</span></p>
+                    <div class="speaker-list" id="speaker-list"></div>
+                </div>
+
+                <div class="disconnect-banner hidden" id="disconnect-banner">
+                    ⚠️ Connection lost - attempting to reconnect...
+                </div>
+
+                <button id="leave-mic-btn" class="btn btn-secondary btn-small">Leave Session</button>
+            </div>
+        </div>
+
+        <div id="speaker-screen" class="screen">
+            <div class="container">
+                <div class="speaker-header">
+                    <h1>🔊 Listening...</h1>
+                    <div class="room-code-display">
+                        <span class="label">Room Code:</span>
+                        <span class="code" id="speaker-room-code">---</span>
+                    </div>
+                </div>
+
+                <div class="connection-status">
+                    <span class="status-dot connected"></span>
+                    <span id="speaker-status-text">Connected</span>
+                </div>
+
+                <div class="audio-visualizer">
+                    <div class="waveform-container">
+                        <div class="waveform" id="waveform">
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                        </div>
+                    </div>
+                    <p id="audio-status">Waiting for audio...</p>
+                </div>
+
+                <div class="volume-control">
+                    <label for="volume-slider">📢 Volume:</label>
+                    <input 
+                        type="range" 
+                        id="volume-slider" 
+                        min="0" 
+                        max="100" 
+                        value="70" 
+                        class="slider"
+                    >
+                    <span id="volume-value">70%</span>
+                </div>
+
+                <div class="disconnect-banner hidden" id="speaker-disconnect-banner">
+                    ⚠️ Lecturer disconnected — waiting to reconnect...
+                </div>
+
+                <button id="leave-speaker-btn" class="btn btn-secondary btn-small">Leave Session</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js').catch(err => {
+                console.log('Service Worker registration failed:', err);
+            });
+        }
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
