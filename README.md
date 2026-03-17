@@ -46,5 +46,5 @@ ClassCast/
   - **Solution:** Verify that you have the correct version of Node.js/Python. Check the compatibility of the libraries.
 
 - **Helpful Links:**
-  - [Official Documentation](https://example.com)
-  - [Community Support](https://example.com)
+  - [Official Documentation]([https://example.com](https://github.com/MrXeskevin/ClassCast/blob/main/README.md))
+  - [Community Support]([https://example.com](https://github.com/MrXeskevin/ClassCast/blob/main/README.md))
